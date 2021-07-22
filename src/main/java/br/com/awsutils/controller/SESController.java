@@ -48,7 +48,7 @@ public class SESController {
         try {
 
             sesService.sendEmail(request.getFromAddress(), request.getToAddress(), request.getSubject(),
-                    request.getTextBody(), request.getHtmlBody());
+                    request.getTextBody(), request.getHtmlBody(), request.getAttachments());
 
             returnMessage.setStatus(true);
             returnMessage.setMessage(Constants.SUCCESS_MESSAGE);

@@ -95,7 +95,7 @@ public class S3Controller {
 
     }
 
-    @RequestMapping(path = "/getobject",
+    @RequestMapping(path = "/object",
             method = RequestMethod.GET,
             produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<?> getObject(@RequestParam("objectId") String objectId,

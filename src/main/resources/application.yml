@@ -1,0 +1,10 @@
+server:
+  port: 8080
+
+awsutils:
+  config:
+    mail:
+      encoding: text/html; charset=UTF-8
+      charset: UTF-8
+      attachments:
+        bucket: multilaser-attachments

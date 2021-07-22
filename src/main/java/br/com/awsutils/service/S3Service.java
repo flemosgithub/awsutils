@@ -3,7 +3,6 @@ package br.com.awsutils.service;
 import br.com.awsutils.Constants;
 import br.com.awsutils.domain.AWSUtilsException;
 import com.amazonaws.AmazonClientException;
-import com.amazonaws.AmazonServiceException;
 import com.amazonaws.regions.Regions;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3Client;
@@ -17,7 +16,7 @@ import java.util.Date;
 @Service
 public class S3Service {
 
-    private static final long URL_EXPIRATION_TIME = 1000 * 60 * 2;
+    private static final long URL_EXPIRATION_TIME = 1000 * 60 * 60;
 
     public void transferImage(String sourceName) throws AWSUtilsException {
 
@@ -41,15 +40,9 @@ public class S3Service {
 
             amazonS3.deleteObject(deleteObjectRequest);
 
-        } catch (AmazonServiceException ase) {
-
-            logError(ase);
+        } catch (AmazonClientException ase) {
 
             throw new AWSUtilsException(ase.getMessage());
-
-        } catch (AmazonClientException ace) {
-
-            throw new AWSUtilsException(ace.getMessage());
 
         }
 
@@ -76,15 +69,9 @@ public class S3Service {
             amazonS3.putObject(new PutObjectRequest(bucketName, filename, bis, omd));
             s3Object.close();
 
-        } catch (AmazonServiceException ase) {
-
-            logError(ase);
+        } catch (Exception ase) {
 
             throw new AWSUtilsException(ase.getMessage());
-
-        } catch (Exception e) {
-
-            throw new AWSUtilsException(e.getMessage());
 
         }
 
@@ -110,29 +97,12 @@ public class S3Service {
 
             return s.toString();
 
-        } catch (AmazonServiceException ase) {
-
-            logError(ase);
+        } catch (Exception ase) {
 
             throw new AWSUtilsException(ase.getMessage());
-
-        } catch (Exception e) {
-
-            throw new AWSUtilsException(e.getMessage());
 
         }
 
     }
-
-    private void logError(AmazonServiceException e) {
-
-        System.out.println("Error Message:    " + e.getMessage());
-        System.out.println("HTTP Status Code: " + e.getStatusCode());
-        System.out.println("AWS Error Code:   " + e.getErrorCode());
-        System.out.println("Error Type:       " + e.getErrorType());
-        System.out.println("Request ID:       " + e.getRequestId());
-
-    }
-
 
 }
